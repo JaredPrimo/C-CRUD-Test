@@ -1,4 +1,7 @@
+using System.Data.Common;
 using Microsoft.Data.Sqlite;
+using pSuiteTest;
+using Ledger;
 
 namespace crudDATA
 {
@@ -11,7 +14,6 @@ namespace crudDATA
         public string name;
         public DateTime expDate;
         public int editOption;
-      
     /// <summary>
     /// 
     /// </summary>
@@ -27,7 +29,6 @@ namespace crudDATA
         this.expDate = expDate;
         this.editOption = editOption;
         this.nextID = nextID;
-
         }
         public int giveID()
         {
@@ -55,7 +56,7 @@ namespace crudDATA
     }
 
     //Acesss SQL Data Base
-    public static class Data
+    public class Data
     {   
         //Creates reference to local DB file location
         private const string ConnectionString = "Data Source=/Users/jbox/Documents/doNetApps/c#/pSuiteTestApp/DBCRUD.db";
@@ -74,7 +75,7 @@ namespace crudDATA
                     Name TEXT NOT NULL, 
                     Expiry TEXT NOT NULL);
                 """;
-
+                
                 //execute table creation command.
                 using (var command = new SqliteCommand(createSKUTableQuery, connection))
                 {
@@ -93,7 +94,7 @@ namespace crudDATA
                 Console.WriteLine(ex.Message);
             }
         }
-        public static void writetToDB(SKU item)
+        public static void writetToDB(SKU item, Ledger.User user)
         {
             try
             {
@@ -106,6 +107,9 @@ namespace crudDATA
                 VALUES (@ID,@name,@expdate);
                 """;
 
+                Ledger.Action uAction = new Ledger.Action(item,item,$"{user.userName} added id: {item.giveID()}| ItemName:{item.giveName()} to inventory.");
+                uAction.UpdateAction();
+                
                 using(var command = new SqliteCommand(insertSKUTableData,connection))
                 {
                     command.Parameters.AddWithValue("@ID",item.giveID());
@@ -156,6 +160,47 @@ namespace crudDATA
             }
          //  return output;
         }
+        public static SKU readItemFromDB(int searchID)
+        { 
+            try
+            {
+                using(var connection = new SqliteConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    const string readInvetory = 
+                    """
+                    SELECT * FROM Inventory
+                    Where IDnum = @ID;
+                    """;
+
+        
+                    using(var command = new SqliteCommand(readInvetory,connection))
+                    {   command.Parameters.AddWithValue("@ID", searchID);
+                        var reader = command.ExecuteReader();
+                        while(reader.Read())
+                        {
+                           int  id = PROGRAM.ToInterger(reader["IDnum"].ToString());
+                           string? name = reader["Name"].ToString();
+                           if (name == null)
+                            {
+                                name="null";
+                            }
+                           SKU item = new SKU(name, id, DateTime.Today);
+                           return item;
+                         }
+                    }
+                }     
+                
+            }catch (SqliteException ex )
+            {
+               // Console.Clear();
+                Console.WriteLine(ex.Message);
+            }
+            SKU failItem = new SKU("BIN",6968,DateTime.Today,0,0);
+            return failItem; 
+        }
+
         public static void updateDB(SKU item)
         { 
             try

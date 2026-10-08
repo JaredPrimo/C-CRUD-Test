@@ -4,14 +4,14 @@ using System.Data.Common;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using crudDATA;
-
+using  Ledger;
 namespace pSuiteTest
 {
 
     class PROGRAM
-    {
+    {   
         //Converts strings to integer, interger cannot be 0 
-        static int ToInterger(string? x)
+        public static int ToInterger(string? x)
         {
             int intergerOut=1;
 
@@ -62,7 +62,6 @@ namespace pSuiteTest
         {       
                 //SKU stored with option 0 but is not written to DB check DB management logic
                 SKU failCase = new SKU("BIN",6968,DateTime.Today,0,0);
-
 
                 //Put options into console
                 Console.WriteLine("[1]Update Name \t [2]Update ID \t [3]Update Expiry \t[4]Return");
@@ -126,8 +125,7 @@ namespace pSuiteTest
                
                 return failCase;
         }
-
-        static void Main()
+        static void printStart()
         {
             string starttext = @"
                                                     $$$$$$$\         $$$$$$\  $$\   $$\ $$$$$$\ $$$$$$$$\ $$$$$$$$\ 
@@ -139,19 +137,31 @@ namespace pSuiteTest
                                                     $$ |            \$$$$$$  |\$$$$$$  |$$$$$$\    $$ |   $$$$$$$$\ 
                                                     \__|             \______/  \______/ \______|   \__|   \________|
             ";
+            //Basic Program Instructions   
+             Console.WriteLine(starttext);
+             Console.WriteLine("[1] View inventory \t [2] Add item to invetory \t [3]Update item in inventory \t[4] Delete items from inventory \n[5] Exit Program ]n \t [6] View Ledger ");
+        }
+
+        static void Main()
+        {
+            
             //Create DB
             Data.initialiseDB();
-
             // Display Message
             Console.Clear();
-        
+
+            //Start Ledger and add admin user
+            Ledger.User user = new Ledger.User();
+            user.startSession();
+            //Ledger.Action = new
+           
+            //Start program
             bool runProgram = true;
-            while (runProgram)
+            
+          
+           while (runProgram)
             {
-                //Basic Program Instructions
-                
-                Console.WriteLine(starttext);
-                Console.WriteLine("[1] View inventory \t [2] Add item to invetory \t [3]Update item in inventory \t[4] Delete items from inventory \t [5] Exit Program");
+                printStart();
                 string? input = Console.ReadLine();
                 if(input == "1")
                 {
@@ -164,7 +174,8 @@ namespace pSuiteTest
                 else if (input == "2")
                 {
                     //Write changes to DB  
-                    Data.writetToDB(GetSKUData());
+                    Data.writetToDB(GetSKUData(),user);
+                    Console.Clear();
                 }
                 else if (input == "4")
                 {
@@ -176,8 +187,12 @@ namespace pSuiteTest
                     Console.WriteLine("##P -Suite closed##");
                     runProgram = false;
                 }
-
-
+                else if (input == "6")
+                {
+                   //Read text
+                   user.viewLedger();
+                  // Console.WriteLine("text cleared");
+                }
 
         
                 while( input=="3")
