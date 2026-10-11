@@ -1,9 +1,8 @@
-using System.Data.Common;
 using Microsoft.Data.Sqlite;
-using pSuiteTest;
-using Ledger;
+using Controller;
 
-namespace crudDATA
+
+namespace DBManagement
 {
 
     // Basic Data type for info
@@ -14,6 +13,7 @@ namespace crudDATA
         public string name;
         public DateTime expDate;
         public int editOption;
+
     /// <summary>
     /// 
     /// </summary>
@@ -21,7 +21,7 @@ namespace crudDATA
     /// <param name="skuID"></param>
     /// <param name="expDate"></param>
     /// <param name="editOption"> 1: Name 2:ID 3:Expiry 4:Delete</param>
-    public SKU(string name, int skuID,  DateTime expDate, int nextID=0, int editOption = 0)
+    public SKU(string name, int skuID,  DateTime expDate , int nextID=0, int editOption = 0)
         {
    
         this.skuID = skuID; 
@@ -52,7 +52,15 @@ namespace crudDATA
         {
             return nextID;
         }
-       
+        public string GiveInfo()
+        {
+            string info;
+            info= $"ID: {skuID} | Name: {name} | Exp: {expDate} | QTY:NA ";
+            return info;
+
+        }
+        public static SKU failItem = new SKU("rgb(221, 174, 170) BADENTRY",01010101,DateTime.MinValue,0,0);
+        public static SKU readItem = new SKU("rgb(170, 221, 178) NOCHANGE",00000000,DateTime.MaxValue,0,0);
     }
 
     //Acesss SQL Data Base
@@ -61,7 +69,7 @@ namespace crudDATA
         //Creates reference to local DB file location
         private const string ConnectionString = "Data Source=/Users/jbox/Documents/doNetApps/c#/pSuiteTestApp/DBCRUD.db";
 
-        public static void initialiseDB()
+        public void initialiseDB()
         {
            //Connect to DB and initalise table
             try
@@ -94,7 +102,10 @@ namespace crudDATA
                 Console.WriteLine(ex.Message);
             }
         }
-        public static void writetToDB(SKU item, Ledger.User user)
+    
+
+
+        public void WritetToDB(SKU item, User user)
         {
             try
             {
@@ -107,8 +118,8 @@ namespace crudDATA
                 VALUES (@ID,@name,@expdate);
                 """;
 
-                Ledger.Action uAction = new Ledger.Action(item,item,$"{user.userName} added id: {item.giveID()}| ItemName:{item.giveName()} to inventory.");
-                uAction.UpdateAction();
+                // Ledger.Action uAction = new Ledger.Action(item,item,$"{user.userName} added id: {item.giveID()}| ItemName:{item.giveName()} to inventory.");
+                // uAction.UpdateAction();
                 
                 using(var command = new SqliteCommand(insertSKUTableData,connection))
                 {
@@ -125,7 +136,9 @@ namespace crudDATA
             }
            
         }
-        public static void readDB()
+
+
+        public void readDB()
         { 
             try
             {
@@ -160,7 +173,8 @@ namespace crudDATA
             }
          //  return output;
         }
-        public static SKU readItemFromDB(int searchID)
+
+        public static SKU readSKUFromDB(int searchID)
         { 
             try
             {
@@ -180,7 +194,7 @@ namespace crudDATA
                         var reader = command.ExecuteReader();
                         while(reader.Read())
                         {
-                           int  id = PROGRAM.ToInterger(reader["IDnum"].ToString());
+                           int  id = Support.ToInterger(reader["IDnum"].ToString());
                            string? name = reader["Name"].ToString();
                            if (name == null)
                             {
@@ -190,18 +204,17 @@ namespace crudDATA
                            return item;
                          }
                     }
-                }     
-                
-            }catch (SqliteException ex )
-            {
-               // Console.Clear();
-                Console.WriteLine(ex.Message);
+                }
             }
-            SKU failItem = new SKU("BIN",6968,DateTime.Today,0,0);
-            return failItem; 
+            catch (SqliteException ex )
+            {
+                Console.WriteLine($" Error: {ex}");
+            }
+            return SKU.failItem;
         }
+                    
 
-        public static void updateDB(SKU item)
+        public void updateDB(SKU item)
         { 
             try
             {
@@ -222,10 +235,17 @@ namespace crudDATA
                     SET IDnum = @nextID 
                     WHERE IDnum = @ID; 
                     """;
+                     const string updateExpDate = 
+                    """
+                    UPDATE Inventory
+                    SET Expiry = @exp 
+                    WHERE IDnum = @ID; 
+                    """;
 
                     //update Name with option 1
                     if(item.giveOption() == 1)
                     {
+                        Console.WriteLine("name changed");
                      using(var command = new SqliteCommand(updateName,connection))
                         {
                             command.Parameters.AddWithValue("@ID",item.giveID());
@@ -244,21 +264,136 @@ namespace crudDATA
                             command.ExecuteNonQuery();
                         }
                     }
-                    // //update ID 
-                    // if(item.giveOption() == 0)
-                    // {
-                    //  Console.WriteLine("Bad Input");
-                    // }
+                    //update Date 
+                    if(item.giveOption() == 3)
+                    {
+                     using(var command = new SqliteCommand(updateExpDate,connection))
+                        {
+                            command.Parameters.AddWithValue("@ID",item.giveID());
+                            command.Parameters.AddWithValue("@exp",item.giveExpDate().ToString());
+                            command.ExecuteNonQuery();
+                        }
+                    }
                     
-                }     
-                
+                }  
             }catch (SqliteException ex )
-            {
+                {
                // Console.Clear();
                 Console.WriteLine(ex.Message);
-            }
-         //  return output;
+                }
         }
- 
+
+        public SKU GetQueryforUpdateDB()
+        {       
+
+            //Put options into console
+            Console.WriteLine("[1]Update Name \t [2]Update ID \t [3]Update Expiry \t[4]Return");
+            int input = Support.ToInterger(Console.ReadLine());
+
+            //Update Name
+            switch (input)
+            {
+                //Updated Name
+                case 1:
+                    //Collect item name
+                    Console.WriteLine("Enter item ID");
+                    int skuID = Support.ToInterger(Console.ReadLine());
+                    if(skuID == 0)
+                    {
+                        Console.WriteLine("input Must be INTERGER > 0!");
+                        skuID = Support.ToInterger(Console.ReadLine());
+                    }
+
+                    //Collect item ID
+                    Console.WriteLine("Enter New item Name");
+                    string? skuName = Console.ReadLine();
+                    if(skuName == null)
+                    {
+                        skuName = "unamed";
+                    }
+
+                    SKU item = new SKU(skuName,skuID,DateTime.Today,0,1);
+
+                return item;
+
+                //Update ID
+                case 2:
+               
+                    Console.WriteLine("Enter current item ID");
+                    skuID = Support.ToInterger(Console.ReadLine());
+
+                    //Enter new id
+                    Console.WriteLine("Enter New item ID");
+                    int nextID = Support.ToInterger(Console.ReadLine());
+                    if(nextID == 0)
+                    {
+                        Console.WriteLine("input Must be INTERGER > 0!");
+                        nextID = Support.ToInterger(Console.ReadLine());
+                    }
+
+                     item = new SKU("tempy",696969,DateTime.Today,0,2);
+                return item;
+                    
+                case 3:
+                    Console.WriteLine("Enter current item ID");
+                        skuID = Support.ToInterger(Console.ReadLine());
+                        if(skuID == 0)
+                        {
+                            Console.WriteLine("input Must be INTERGER > 0!");
+                            skuID = Support.ToInterger(Console.ReadLine());
+                        }
+                    item = new SKU("tempy",skuID,DateTime.Today,0,3);
+                return item;
+
+                 //if(input== 4)
+                
+                //     Console.Clear();
+                //     return SKU.failItem; 
+            }
+            
+            
+            return SKU.failItem;
+            
+        }
+         public void DeleteSKUFromDB(int ID)
+        { 
+            try
+            {
+                using(var connection = new SqliteConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    const string deleteSKU = 
+                    """
+                    DELETE FROM Inventory
+                    WHERE IDnum = @ID; 
+                    """;
+
+                    //update Name with option 1
+                    using(var command = new SqliteCommand(deleteSKU,connection))
+                    {
+                        command.Parameters.AddWithValue("@ID",ID);
+                        command.ExecuteNonQuery();
+                    }
+                    
+                }  
+            }catch (SqliteException ex )
+                {
+               // Console.Clear();
+                Console.WriteLine(ex.Message);
+                }
+        }
     }
 }
+
+                
+//             }catch (SqliteException ex )
+//             {
+//                // Console.Clear();
+//                 Console.WriteLine(ex.Message);
+//             }
+//          //  return output;
+//         }
+ 
+//     }
+// }
