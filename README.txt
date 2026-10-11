@@ -1,4 +1,3 @@
-###############################
-This is minimal test of C# to implement CRUD features.
-
-The next major stage is adding a ledger that tracks and allows the reversal of user changes.
+##########################################################################################
+C# Basic programming CRUD application with a minimal ledger implementation. 
+Next Steps are to allow a reversible ledger and conclude 
