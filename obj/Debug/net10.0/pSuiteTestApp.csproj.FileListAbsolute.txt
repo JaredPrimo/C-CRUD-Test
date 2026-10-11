@@ -82,3 +82,4 @@
 /Users/jbox/Documents/doNetApps/c#/pSuiteTestApp/obj/Debug/net10.0/pSuiteTestApp.pdb
 /Users/jbox/Documents/doNetApps/c#/pSuiteTestApp/obj/Debug/net10.0/pSuiteTestApp.genruntimeconfig.cache
 /Users/jbox/Documents/doNetApps/c#/pSuiteTestApp/obj/Debug/net10.0/ref/pSuiteTestApp.dll
+/Users/jbox/Documents/doNetApps/c#/pSuiteTestApp/obj/Debug/net10.0/pSuiteTestApp.sourcelink.json

@@ -1,0 +1,76 @@
+1111 Read DB
+1111 Udated DB:
+1111 Udated DB:
+Check Added to db -> 
+ ID: 0 | Name: 15141 | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Check Added to db -> 
+ ID: 1515 | Name: Ledger Check  | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Check Added to db -> 
+ ID: 1515 | Name: Ledger Check  | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Check Udated DB: | ID: 8941 | Name: change | Exp: 11/10/2026 12:00:00 AM | QTY:NA  to ID: 8941 | Name: LEdger CHeck 3 | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Check Udated DB: | ID: 8941 | Name: change | Exp: 11/10/2026 12:00:00 AM | QTY:NA  to ID: 8941 | Name: LEdger CHeck 3 | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Check Udated DB: | ID: 8941 | Name: change | Exp: 11/10/2026 12:00:00 AM | QTY:NA  to ID: 8941 | Name: LEdger CHeck 3 | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Check Read DB
+Check Read DB
+Check Read DB
+Check Read DB
+Check Udated DB: | ID: 8941 | Name: LEdger CHeck 3 | Exp: 11/10/2026 12:00:00 AM | QTY:NA  to ID: 8941 | Name: Fluconazole | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Check Udated DB: | ID: 8941 | Name: LEdger CHeck 3 | Exp: 11/10/2026 12:00:00 AM | QTY:NA  to ID: 8941 | Name: Fluconazole | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Check Udated DB: | ID: 8941 | Name: LEdger CHeck 3 | Exp: 11/10/2026 12:00:00 AM | QTY:NA  to ID: 8941 | Name: Fluconazole | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Check Udated DB: | ID: 8941 | Name: LEdger CHeck 3 | Exp: 11/10/2026 12:00:00 AM | QTY:NA  to ID: 8941 | Name: Fluconazole | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Check Udated DB: | ID: 8941 | Name: LEdger CHeck 3 | Exp: 11/10/2026 12:00:00 AM | QTY:NA  to ID: 8941 | Name: Fluconazole | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+T0pper Read DB
+T0pper Udated DB:
+  ID: 1010101 | Name: rgb(221, 174, 170) BADENTRY | Exp: 01/01/0001 12:00:00 AM | QTY:NA 
+ to
+ ID: 1010101 | Name: rgb(221, 174, 170) BADENTRY | Exp: 01/01/0001 12:00:00 AM | QTY:NA 
+T0pper Udated DB:
+  ID: 1010101 | Name: rgb(221, 174, 170) BADENTRY | Exp: 01/01/0001 12:00:00 AM | QTY:NA 
+ to
+ ID: 1010101 | Name: rgb(221, 174, 170) BADENTRY | Exp: 01/01/0001 12:00:00 AM | QTY:NA 
+T0pper Udated DB:
+  ID: 141 | Name: logo | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+ to
+ ID: 141 | Name: Diazpeam 10mg 100's | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+T0pper Udated DB:
+  ID: 141 | Name: logo | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+ to
+ ID: 141 | Name: Diazpeam 10mg 100's | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+T0pper Udated DB:
+  ID: 141 | Name: logo | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+ to
+ ID: 141 | Name: Diazpeam 10mg 100's | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+T0pper Read DB
+T0pper Read DB
+T0pper Read DB
+T0pper Read DB
+T0pper1 Read DB
+T0pper1 Udated DB:
+  ID: 91014 | Name: tellnet | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+ to
+ ID: 91014 | Name: Hot Soul Gel | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+T0pper1 Read DB
+Jared Read DB
+Jared Udated DB:
+	ID: 22 | Name: 22 | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+	to
+	ID: 22 | Name: Arithritis relief Cream | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Jared Added to db -> 
+ ID: 91839 | Name: Butter | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Jared Read DB
+Jared Deleted ID: 1414 | Name: Rand | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Aneeza Shaw Read DB
+Aneeza Shaw Read DB
+Aneeza Shaw Added to db -> 
+ ID: 0 | Name: cherry | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Jared Read DB
+Jared Added to db -> 
+ ID: 1 | Name: SUCESS! | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Jared Read DB
+Jared Added to db -> 
+ ID: 89141 | Name: DumbDore | Exp: 11/10/2026 12:00:00 AM | QTY:NA 
+Jared Read DB
+Jared Udated DB:
+	ID: 1010101 | Name: rgb(221, 174, 170) BADENTRY | Exp: 01/01/0001 12:00:00 AM | QTY:NA 
+	to
+	ID: 1010101 | Name: rgb(221, 174, 170) BADENTRY | Exp: 01/01/0001 12:00:00 AM | QTY:NA 
