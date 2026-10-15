@@ -16,10 +16,11 @@ namespace Controller
 
         //Keep track of user actions
         Movement movement = new Movement();
+        //Stack<Movement> ledger = move
         public bool runProgram;
 
 
-         public bool interactDB(int userInput, User user)
+        public bool interactDB(int userInput, User user)
         {
             this.user = user;
             
@@ -56,8 +57,9 @@ namespace Controller
                     db.readDB();
                     Console.WriteLine("###############################################################################################################");
                     
-                    movement.TakeMovement(SKU.readItem,$"{user.userName} Read DB");
-                    movement.UpdateAction(userInput,movement);
+                    //movement.TakeMovement(SKU.readItem,$"{user.userName} Read DB");
+                    //movement.UpdateAction(userInput,movement);
+                    movement.WriteTOLedger($"{user.userName} read DB {DateTime.Today.ToString()}");
                 return true;
                 
                 //Update
@@ -90,11 +92,91 @@ namespace Controller
 
                 //Exit Program
                 case 6:
+                    movement.viewLedger();
+                    Console.WriteLine("Would you like to undo last change in ledger? [1]Y | [2]N ");
+                    userInput = Support.ToInterger(Console.ReadLine());
+
+                    if(userInput == 1)
+                    {
+                        ReverseMovement(1);
+                    }
+                return true;
+
+                case 7:
                     Console.WriteLine("Program exitied ");
                 return false;
                 
+                
             }
             return true;
+        }
+
+        public void ReverseMovement(int userInput)
+        {
+            User? user = this.user;
+            if (user == null)
+            {
+                Console.WriteLine("ERROR: User session could not be verified");
+
+            }
+            else
+            {
+              Stack<Movement> ledger = movement.ledger;
+            switch (userInput)
+            {
+                //Create
+                case 1:
+                    Movement deletedItem = ledger.Pop();
+                    SKU? sku = deletedItem.oldInfo ;
+                    if( sku == null)
+                    {
+                        Console.WriteLine("No item on stack ");
+                    }
+                    else
+                    {
+                        db.WritetToDB(sku,user);
+
+                        //Write Changes to ledger
+                        movement.TakeMovement(sku,$"{user.userName} RESTORED TO DB -> \n {sku.GiveInfo()}");
+                        movement.UpdateAction(userInput, movement);
+                    }
+                    // Logic to delete SKU
+                    // RetrieveMovement() and remove from ledger
+                    // add change to Ledger  "user undid" + movement.useraction
+                    
+                break;
+            
+                //Read
+                case 2:
+                    // Search ledger for movements with key 2 
+                    // RetrieveMovement() and remove from ledger
+                    // add change to Ledger  "user undid" + movement.useraction
+
+                break;
+                
+                //Update Name
+                case 3:
+                    // sku = db.GetQueryforUpdateDB();
+                    // RetrieveMovement() and remove from ledger
+                    // Update sku with movement.old info
+                    // add change to Ledger  "user undid" + movement.useraction
+                break;
+
+                //Delete
+                case 4:
+                    // RetrieveMovement()
+                    // Create Movement.oldinfo 
+                    //Codeblock 
+                    // add change to Ledger  "user undid" + movement.useraction
+                break;
+
+                //Exit Program
+                case 5:
+                    Console.WriteLine("Program exitied ");
+                break;
+                
+            }  
+            }
         }
 
     }
@@ -130,7 +212,19 @@ namespace Controller
                 }
             }
         
-
+        }
+        public void WriteSessionToLedger()
+        {
+            //Write ledger changes to file.
+                    if (File.Exists("/Users/jbox/Documents/doNetApps/c#/pSuiteTestApp/ledger.txt"))
+                    {
+                        File.AppendAllText("/Users/jbox/Documents/doNetApps/c#/pSuiteTestApp/ledger.txt", $"\n\t{this.userName} STARTED NEW SESSION" + Environment.NewLine);
+                    }
+                    else
+                    {
+                        File.Create("/Users/jbox/Documents/doNetApps/c#/pSuiteTestApp/ledger.txt");
+                        File.WriteAllText("/Users/jbox/Documents/doNetApps/c#/pSuiteTestApp/ledger.txt", $"\n\t{this.userName} STARTED  NEW SESSION" + Environment.NewLine);    
+                    }       
         }
          public void viewLedger()
         {
@@ -149,29 +243,33 @@ namespace Controller
         public string? userAction;
         public SKU? oldInfo;
         public SKU? newInfo;
-        List<Movement> ledger= new List<Movement>();
+        public Stack<Movement> ledger= new Stack<Movement>();
 
+        // public Stack<Movement> RetrieveMovementStack(Movement movement)
+        // {
+        //     Stack<Movement> movementList = movement.ledger;
+        //     return movementList;
+        // }
         public void TakeMovement(SKU newInfo, string userAction="Empty")
         {
             this.userAction = userAction;
             this.newInfo = newInfo;
         }
 
-         public void  UpdateAction(int actionType, Movement currentMovement)
-         {
+        public void  UpdateAction(int actionType, Movement currentMovement)
+        {
             if(newInfo != null && userAction != null)
             {
                 switch (actionType)
                 {
                     case 1:
                         //ADDED ITEM TO DB No NEED TO record oldSKU info
-                        ledger.Add(currentMovement);
+                        ledger.Push(currentMovement);
                     break;
 
                     case 2:
                         //Read item from DB no need to record current oldSKU info
-                        ledger.Add(currentMovement);
-
+                        ledger.Push(currentMovement);
                     break;
 
                     case 3:
@@ -182,7 +280,7 @@ namespace Controller
                         currentMovement.userAction = $"{currentMovement.userAction}\n\t{oldInfo.GiveInfo()}\n\tto\n\t{newInfo.GiveInfo()}";
                         
                         // Ledger.l updatedAction = new Ledger.ledgerEntry(oldInfo, newInfo, userAction);
-                        ledger.Add(currentMovement);
+                        ledger.Push(currentMovement);
                     break;
 
                     case 4:
@@ -191,7 +289,7 @@ namespace Controller
                         oldInfo = Query(newInfo.giveID());
 
                         currentMovement.userAction = $"{currentMovement.userAction} {oldInfo.GiveInfo()}";
-                        ledger.Add(currentMovement);
+                        ledger.Push(currentMovement);
                     break;
                 }
                     //Write ledger changes to file.
@@ -211,10 +309,25 @@ namespace Controller
                 userAction ="Empty";
                 Console.WriteLine("Handling error failed to gather SKU and USER action");
             }
+        }
+
+        public void WriteTOLedger(string text)
+        {
+            //Write ledger changes to file.
+            if (File.Exists("/Users/jbox/Documents/doNetApps/c#/pSuiteTestApp/ledger.txt"))
+            {
+                File.AppendAllText("/Users/jbox/Documents/doNetApps/c#/pSuiteTestApp/ledger.txt", text + Environment.NewLine);
+            }
+            else
+            {
+                File.Create("/Users/jbox/Documents/doNetApps/c#/pSuiteTestApp/ledger.txt");
+                File.WriteAllText("/Users/jbox/Documents/doNetApps/c#/pSuiteTestApp/ledger.txt", text + Environment.NewLine);    
+            }         
+        }
              
             
-        }
-      //  private void WriteTOLedger()
+        
+      
     
        
         private SKU Query(int skuID)

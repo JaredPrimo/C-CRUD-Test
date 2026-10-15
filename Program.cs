@@ -12,7 +12,7 @@ namespace Session
     class CurrentSession
     {   
         //Creates new user View and adds user
-        static View display = new viewModel.View();
+        static View display = new View();
         static User admin = new User();
         static Controller.Action userAction = new Controller.Action();
 
@@ -23,8 +23,9 @@ namespace Session
         {
             Console.Clear();
             admin.startSession();
+            admin.WriteSessionToLedger();
             userAction.db.initialiseDB();
-
+            
             while(runProgram)
             {
                 //Start text
@@ -32,7 +33,7 @@ namespace Session
  
                 //Handles User input -> Checks permissions and Writes changes to DB
                 int userInput = Support.ToInterger(Console.ReadLine());
-                userAction.interactDB(userInput,admin);
+                runProgram =  userAction.interactDB(userInput,admin);;
                 
             }
         }

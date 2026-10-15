@@ -74,3 +74,39 @@ Jared Udated DB:
 	ID: 1010101 | Name: rgb(221, 174, 170) BADENTRY | Exp: 01/01/0001 12:00:00 AM | QTY:NA 
 	to
 	ID: 1010101 | Name: rgb(221, 174, 170) BADENTRY | Exp: 01/01/0001 12:00:00 AM | QTY:NA 
+Microphone Paiger Read DB
+Microphone Paiger Deleted ID: 0 | Name: 919 | Exp: 12/10/2026 12:00:00 AM | QTY:NA 
+Microphone Paiger Read DB
+TommyLee Read DB
+TommyLee Deleted ID: 8151 | Name: Dokebi | Exp: 14/10/2026 12:00:00 AM | QTY:NA 
+TommyLee RESTORED TO DB -> 
+ ID: 8151 | Name: Deleted | Exp: 14/10/2026 12:00:00 AM | QTY:NA 
+TommyLee Read DB
+Loki Read DB
+Loki Deleted ID: 1 | Name: SUCESS! | Exp: 14/10/2026 12:00:00 AM | QTY:NA 
+Loki RESTORED TO DB -> 
+ ID: 1 | Name: SUCESS! | Exp: 14/10/2026 12:00:00 AM | QTY:NA 
+Loki Read DB
+tbone Read DB
+tbone Read DB
+tbone Read DB
+2Pca Read DB
+2Pca Read DB
+2Pca Read DB
+FREE TOMMY LEE STARTED NEW SESSION
+
+Kendrick Added to db -> 
+ ID: 24014 | Name: Renault Kiger | Exp: 14/10/2026 12:00:00 AM | QTY:NA 
+Kendrick read DB 14/10/2026 12:00:00 AM
+Kendrick Deleted ID: 24014 | Name: Renault Kiger | Exp: 14/10/2026 12:00:00 AM | QTY:NA 
+Kendrick read DB 14/10/2026 12:00:00 AM
+Kendrick RESTORED TO DB -> 
+ ID: 24014 | Name: Renault Kiger | Exp: 14/10/2026 12:00:00 AM | QTY:NA 
+Kendrick read DB 14/10/2026 12:00:00 AM
+Kenny read DB 14/10/2026 12:00:00 AM
+Tool Tip STARTED SESSION
+
+
+	Stephen King STARTED NEW SESSION
+Stephen King Added to db -> 
+ ID: 901001 | Name: The Ring | Exp: 15/10/2026 12:00:00 AM | QTY:NA 
